@@ -1,56 +1,47 @@
-import idb from 'idb';
+//import idb from 'idb';
 
 const baseURL = 'https://free.currencyconverterapi.com';
 const countriesURLExtention = '/api/v5/countries';
 const convertURLExtention = '/api/v5/convert?q=';
 
 const loadCurrencyList = () => {
-  const select1 = document.getElementById('select1');
-  const select2 = document.getElementById('select2');
-
   fetch('https://free.currencyconverterapi.com/api/v5/countries').then(res => res.json()).then(data => {
+    const select1 = document.getElementById("select1");
+    const select2 = document.getElementById("select2");
     const currencyList = data.results;
     
     for(let currency in currencyList) {
-      let option = document.createElement('option');
+      const option = document.createElement('option');
       option.value = `${currencyList[currency].currencyId}`;
-      if(!currencyList[currency].currencySymbol) {
-        option.innerText = `${currencyList[currency].currencyName} (${currencyList[currency].currencyId})`;
-      }else {
-        option.innerText = `${currencyList[currency].currencyName} (${currencyList[currency].currencyId}) / ${currencyList[currency].currencySymbol}`;
-      }
+      option.innerText = `${currencyList[currency].currencyName} (${currencyList[currency].currencyId}) / ${currencyList[currency].currencySymbol}`;
+      
       select1.appendChild(option);
       select2.appendChild(option.cloneNode(true));
 
-      dbPromise.then( db => {
+      /*dbPromise.then( db => {
         if(!db) return;
 
         var tx = db.transaction('keyval', 'readwrite');
         var store = tx.objectStore('keyval');
 
         store.put(currencyList);
-      })
+      })*/
     }
   }).catch(err => {
     alert('There was an error loading full page content due to inadequate internet connection.');
-    console.log(err);
+    console.log('There was an error loading full page content due to inadequate internet connection.', err);
   });
 }
 
 document.addEventListener( "DOMContentLoaded", event => {
   loadCurrencyList();
-  openDataBase();
-  IndexController.registerServiceWorker();
+  //openDataBase();
+  
+  /*IndexController.registerServiceWorker();*/
   const convert = document.getElementById('convert');
-  convert.addEventListener("click", () => convertCurrencies());
-
-});
-
-
-
-const fetchCurrencies = () => {
-
-}
+  convert.addEventListener( "click", convertCurrencies );
+  alert("Hello");
+} );
 
 const convertCurrencies = () => {
   const amount = document.getElementById('fromAmount').value;
@@ -60,7 +51,7 @@ const convertCurrencies = () => {
   const toCurrency = select2.options[select2.selectedIndex].value;
   const callback = result => {
     document.getElementById('to').innerHTML = `${result} ${toCurrency}`;
-    /*console.log(result);*/
+    console.log(result);
   }
 
   const query = `${fromCurrency}_${toCurrency}`;
@@ -80,7 +71,7 @@ const calculateValue = (rate, amount, query, callback) => {
   callback(Math.round(value));
 }
 
-function openDataBase() {
+/*function openDataBase() {
   if(!navigator.serviceWorker) {
     console.log('No service worker, and so, no indexedDB!');
     return Promise.resolve();
@@ -89,9 +80,9 @@ function openDataBase() {
   const dbPromise = idb.open('currency-converter', 1, function(upgradeDb) {
     var currencyStore = upgradeDb.createObjectStore('keyval', {keyPath: 'currencyId'});
   });
-}
+}*/
 
-class IndexController {
+/*class IndexController {
   static registerServiceWorker() {
     if (!navigator.serviceWorker) return;
     navigator.serviceWorker.register('/sw.js').then((registration) => {
@@ -147,4 +138,4 @@ class IndexController {
     const alertMessage = document.getElementById('alert-message');
     alertMessage.innerText = message;
   }
-}
+}*/

@@ -55,6 +55,7 @@ button {
     margin: auto;
     height: 15px;
     width: 200px;
+    text-align: center;
     min-width: 100px;
 }
 

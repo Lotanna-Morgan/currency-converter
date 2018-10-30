@@ -1,4 +1,4 @@
-const staticCacheName = "";
+/*const staticCacheName = "";
 const urlsToCache = [
     '/',
     '/index.html',
@@ -57,4 +57,4 @@ self.addEventListener('message', (event) => {
     if (event.data.action === 'skipWaiting') {
       self.skipWaiting();
     }
-});
+});*/
